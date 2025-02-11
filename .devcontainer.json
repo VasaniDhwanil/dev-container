@@ -1,0 +1,27 @@
+{
+    "name": "MLIP Dev Container",
+    "dockerComposeFile": [
+      "./docker-compose.yml"
+    ],
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+          "settings": {
+            "python.defaultInterpreterPath": "/usr/local/bin/python",
+            "python.linting.enabled": true,
+            "python.linting.flake8Enabled": true,
+            "python.formatting.autopep8Path": "/usr/local/bin/autopep8"
+          },
+          "extensions": [
+            "ms-python.python",
+            "donjayamanne.git-extension-pack",
+            "ms-python.vscode-pylance",
+            "eamodio.gitlens",
+            "ms-toolsai.jupyter",
+            "github.copilot"
+          ]
+        }
+      }
+  }
+  
