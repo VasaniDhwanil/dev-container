@@ -5,6 +5,7 @@
     ],
     "service": "app",
     "workspaceFolder": "/workspace",
+    "remoteUser": "alien",
     "customizations": {
         "vscode": {
           "settings": {
