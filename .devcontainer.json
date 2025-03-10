@@ -10,9 +10,12 @@
         "vscode": {
           "settings": {
             "python.defaultInterpreterPath": "/usr/local/bin/python",
-            "python.linting.enabled": true,
-            "python.linting.flake8Enabled": true,
-            "python.formatting.autopep8Path": "/usr/local/bin/autopep8"
+            "python.linting.pylintEnabled": true,
+            "python.formatting.provider": "black",
+            "python.formatting.blackPath": "/usr/local/bin/black",
+            "editor.formatOnSave": true,
+            "editor.rulers": [88],
+            "python.testing.pytestEnabled": true
           },
           "extensions": [
             "ms-python.python",
@@ -20,7 +23,9 @@
             "ms-python.vscode-pylance",
             "eamodio.gitlens",
             "ms-toolsai.jupyter",
-            "github.copilot"
+            "github.copilot",
+            "donjayamanne.python-extension-pack",
+        "dbaeumer.vscode-eslint"
           ]
         }
       }
