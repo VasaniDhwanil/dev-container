@@ -1,13 +1,56 @@
 version: '3.8'
 services:
+  postgres:
+    image: postgres:latest
+    container_name: movie_db
+    ports:
+      - 5432:5432  # Expose PostgreSQL on port 5432
+    env_file:
+      - .env  # Load credentials from .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network  # Private network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka-consumer:
+    # build:
+      # context: ../  # Root of project
+      # dockerfile: Dockerfile # Directory with consumer code and Dockerfile
+    image: dnv4912/alien5:latest
+    container_name: kafka_ratings_consumer
+    env_file:
+      - .env  # Pass credentials to consumer
+      # Adjust if Kafka is elsewhere
+    command: ["/bin/bash", "-c","source entrypoint.sh && python consumer/consume_ratings.py"]
+    depends_on:
+      - postgres
+    networks:
+      - app_network  # Same private network
+    restart: unless-stopped
+
   app:
     build:
       context: .
       dockerfile: ./Dockerfile
     container_name: mlip_dev_container
     restart: always
-    command: ["/bin/sh","-c","--","while true; do sleep 84600; done"]
+    command: ["/bin/sh", "-c", "chmod +x /workspace/clone-repos.sh && bash /workspace/clone-repos.sh  && while true; do sleep 84600; done"]
     volumes:
       - code:/workspace
+      - ./clone-repos.sh:/workspace/clone-repos.sh
+    env_file:
+      - .env
+    networks:
+      - app_network 
 volumes:
   code:
+  postgres_data:
+networks:
+  app_network:
+    driver: bridge 
